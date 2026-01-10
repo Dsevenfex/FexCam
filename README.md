@@ -83,7 +83,7 @@ pip install -r requirements.txt
 ### 4. Execution
 
 ``` bash
-python main.py
+python FexCam.py
 ```
 
 ### 5. Tunneling Setup
