@@ -1,0 +1,7 @@
+venv/
+locations/
+infos/
+photos/
+__pycache__/
+cloudflared.exe
+TOKEN_NGROK.txt
