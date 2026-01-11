@@ -1,5 +1,4 @@
- Browser Permission & Metadata Awareness Tool (PoC)
-
+FexCam
 ## Project Overview
 
 This project is a **Proof of Concept (PoC)** developed for **security
@@ -69,8 +68,14 @@ cd FexCam
 
 ``` bash
 python3 -m venv venv
-source venv/bin/activate #Linux && Mac
-venv\Scripts\activate #Windows
+```
+##### Linux && Mac
+```bash
+source venv/bin/activate 
+```
+##### Windows
+```bash
+venv\Scripts\activate 
 
 ```
 
@@ -93,27 +98,18 @@ python FexCam.py
 
 ------------------------------------------------------------------------
 
-## Directory Architecture
 
-  Path                Description
-  ------------------- ------------------------------------
-  `photos/`           Archived captured media assets
-  `infos/`            System and browser metadata (JSON)
-  `locations/`        Geographic coordinate data (JSON)
-  `TOKEN_NGROK.txt`   Local Ngrok authentication token
+##  Directory Architecture
 
-------------------------------------------------------------------------
+| Path               | Description                                   |
+|--------------------|-----------------------------------------------|
+| `photos/`          | Archived captured media assets                |
+| `infos/`           | System and browser metadata (JSON)            |
+| `locations/`       | Geographic coordinate data (JSON)             |
+| `TOKEN_NGROK.txt`  | Local Ngrok authentication token              |
 
-## Security Best Practices
+---
 
--   **User Vigilance:** Avoid interacting with URLs from unverified or
-    suspicious sources.
--   **Permission Management:** Regularly audit browser permissions
-    (e.g., `chrome://settings/content`).
--   **Defensive Tooling:** Use security-focused browser extensions to
-    block unauthorized scripts and tracking.
-
-------------------------------------------------------------------------
 
 ## License
 
