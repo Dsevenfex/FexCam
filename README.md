@@ -1,4 +1,7 @@
-FexCam
+<div align="center">
+  <h1>FexCam</h1>
+  <img src="FexCam.gif" alt="Terminal Demo" width="600">
+</div>
 ## Project Overview
 
 This project is a **Proof of Concept (PoC)** developed for **security
