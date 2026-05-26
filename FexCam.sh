@@ -16,7 +16,7 @@ if [ ! -d "venv" ]; then
     python3 -m venv venv
     
     if [ $? -ne 0 ]; then
-        echo "[-] Error: Venv - Creating Problem. დარწმუნდი, რომ python3-venv დაყენებული გაქვს."
+        echo "[-] Error: Problem creating venv. Make sure python3-venv is installed."
         exit 1
     fi
 fi
