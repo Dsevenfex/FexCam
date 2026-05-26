@@ -60,7 +60,13 @@ management**.
 ------------------------------------------------------------------------
 
 ## Installation & Deployment
-
+### 0. If you can use bash
+```bash
+git clone https://github.com/Dsevenfex/FexCam
+cd FexCam
+./FexCam.sh
+```
+# OR
 ### 1. Repository Cloning
 
 ``` bash
