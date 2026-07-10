@@ -3,10 +3,9 @@ import os
 from datetime import datetime
 import json
 from colorama import Fore, Style, init
-
 init(autoreset=True)
 
-def web(app):
+def web(app,template):
     UPLOAD_FOLDER = 'photos'
     INFO_FOLDER = 'infos'
     LOCATION_FOLDER = "locations"
@@ -22,7 +21,7 @@ def web(app):
     
     @app.route("/")
     def home():
-        return render_template("index1.html")
+        return render_template(template)
     
     @app.route('/upload', methods=['POST'])
     def upload_image():
