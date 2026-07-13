@@ -88,6 +88,9 @@ def run_ngrok(port, token):
     conf.get_default().auth_token = token
     try:
         public_url = ngrok.connect(port).public_url
+        qr_code = f"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={public_url}"
+        print(f"{Fore.CYAN}{Style.BRIGHT}───────────────────────────────────────")
+        print(f"{Fore.GREEN}{Style.BRIGHT}[|] QR code URL: {Fore.CYAN}{qr_code}")
         print(f"{Fore.CYAN}{Style.BRIGHT}───────────────────────────────────────")
         print(f"{Fore.GREEN}{Style.BRIGHT}[|] Ngrok URL: {Fore.CYAN}{public_url}")
     except Exception as e:
