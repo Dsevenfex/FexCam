@@ -95,4 +95,3 @@ def run_ngrok(port, token):
         print(f"{Fore.GREEN}{Style.BRIGHT}[|] Ngrok URL: {Fore.CYAN}{public_url}")
     except Exception as e:
         print(f"{Fore.RED}[!] Ngrok Error: {e}")
-

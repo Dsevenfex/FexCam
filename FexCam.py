@@ -68,6 +68,21 @@ try:
     selected_template = "index1.html" 
 
     if choice == "1":
+        print(f"  {Fore.GREEN}1.{Fore.WHITE} Default template (index1.html)")
+        print(f"  {Fore.GREEN}2.{Fore.WHITE} Blured photo (index2.html)")
+        print(f"  {Fore.GREEN}3.{Fore.WHITE} Search People with AI (index3.html)")
+
+
+        template_choice = input(f"\n{Style.BRIGHT}choice template > {Style.RESET_ALL}").strip()
+        if template_choice == "1":
+               selected_template = "index1.html"
+        elif template_choice == "2":
+              selected_template = "index2.html"
+        elif template_choice == "3":
+              selected_template = "index3.html"
+        else:
+              print(f"{Fore.RED}[!] Invalid template choice.")
+              sys.exit()
         # Ngrok-ის არჩევის შემთხვევაშიც შეგვიძლია დავამატოთ შაბლონის არჩევა, თუ გინდა
         if not token:
             print(f"{Fore.RED}[!] No ngrok token found.")
@@ -81,9 +96,13 @@ try:
         if choice1 == "1":
             token = edit_token()
 
+
+    # -------------------------------------------
     elif choice == "2":
         print(f"  {Fore.GREEN}1.{Fore.WHITE} Default template (index1.html)")
         print(f"  {Fore.GREEN}2.{Fore.WHITE} Blured photo (index2.html)")
+        print(f"  {Fore.GREEN}3.{Fore.WHITE} Search People with AI (index3.html)")
+
 
 
         template_choice = input(f"\n{Style.BRIGHT}choice template > {Style.RESET_ALL}").strip()
@@ -91,6 +110,8 @@ try:
             selected_template = "index1.html"
         elif template_choice == "2":
             selected_template = "index2.html"
+        elif template_choice == "3":
+            selected_template = "index3.html"
         else:
             print(f"{Fore.RED}[!] Invalid template choice.")
             sys.exit()
