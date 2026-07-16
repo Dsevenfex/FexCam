@@ -19,7 +19,7 @@ if [ ! -d "venv" ]; then
         echo "[-] Error: Problem creating venv. Make sure python3-venv is installed."
         exit 1
     fi
-fi
+fi 
 
 echo -e "${BLUE}[*] Venv Activate ...${NC}"
 if [ -f "venv/bin/activate" ]; then
