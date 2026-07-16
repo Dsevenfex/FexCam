@@ -7,6 +7,7 @@ from flask import Flask
 from flask_cors import CORS
 import flask.cli
 from colorama import Fore, Style, init
+import socket
 
 try:
     from routes import web
@@ -125,7 +126,23 @@ try:
 
     print(f"{Fore.YELLOW}[*] Starting Flask server on port {PORT}...")
     threading.Thread(target=start_flask, daemon=True).start()
-    time.sleep(2)
+
+    server_ready = False
+    start_time = time.time()
+    
+    while time.time() - start_time < 15: 
+        try:
+            with socket.create_connection(("127.0.0.1", PORT), timeout=1):
+                server_ready = True
+                break
+        except (ConnectionRefusedError, OSError):
+            time.sleep(0.5)
+
+    if not server_ready:
+        print("[!] Error: Flask server failed to start within timeout.")
+        sys.exit()
+
+    print("[+] Flask server is up and running! Starting tunnel...")
 
 
     if choice == "1":
